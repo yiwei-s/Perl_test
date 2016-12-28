@@ -6,8 +6,9 @@ use List::Uniq ':all';
 use List::MoreUtils;
 use Data::Dumper;
  
-my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
- 
+#my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
+my $file = "ColCheckMe" or die "Need to get CSV file on the command line\n";
+  
 my $sum = 0;
 my @fields = ();
 my @line_list = ();
@@ -58,9 +59,9 @@ for my $array_ref (@line_list) {
        }  
        
       }
-      if( $index >7 or $index <7){
+    if( $index >7 or $index <7){
          $check_col7 =1;
-       }
+    }
 }
 # result title
 
@@ -83,13 +84,7 @@ else{
 #check if the elements in first column are unique
 my @sub_first_col = get_first_column(\@line_list);
 check_unique_in_list(\@sub_first_col);
-# my @uniq_first_col = uniq(@first_col);
-# if ((scalar @uniq_first_col) == (scalar @first_col)){
-  # print "The values in column 1 are unique.\n";
-  # }
-# else{
-  # print "The values in column 1 are NOT unique\n";
-  # }
+
 #print out the word count of "SpecStr" ; 
 print "The total occurrence of word <SpecStr> is $word_spec_ctr .\n" ;
 #count_word({LINE_LIST=>\@line_list});
@@ -105,7 +100,8 @@ sub count_word {
   # my %opt = %{ shift @_ };
   # my @input = $opt{LINE_LIST};
   # print Dumper \@input;
-  my @input = @{$_[0]};
+  # my @input = @{$_[0]};
+  my @input = @_;
   for my $array_ref (@input) {
    
     my @elements = split('\t', $array_ref);
@@ -128,7 +124,8 @@ sub count_word {
 sub get_first_column  {
   my @first_col = ();
   my $word_spec_ctr = 0;  #the word SpecStr counter
-  my @input = @{$_[0]};
+  #my @input = @{$_[0]};
+  my @input = @_;
   for my $array_ref (@input) {
     my $index =0;
     my @elements = split('\t', $array_ref);
@@ -148,7 +145,8 @@ sub get_first_column  {
 
 #sub to check if the elements are unique
 sub check_unique_in_list  {
-  my @input = @{$_[0]};
+  #my @input = @{$_[0]};
+  my @input = @_;
   my @uniq_first_col = uniq(@input);
   if ((scalar @uniq_first_col) == (scalar @input)){
     print "The values in column 1 are unique.\n";
@@ -157,3 +155,4 @@ sub check_unique_in_list  {
     print "The values in column 1 are NOT unique\n";
     }
 }
+
